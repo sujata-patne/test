@@ -157,7 +157,7 @@ let obj2 = { a: 1, b: 34, c: 1, d: 6 };
 console.log(getUnique(obj1, obj2)); // Output: {c: 1, d: 6}
 ```
 
-#### Create a function which will convert string from 'today is friday' to 'friday is today'. Condition can't use inbuild function, you can use length property or for loop.
+### Create a function which will convert string from 'today is friday' to 'friday is today'. Condition can't use inbuild function, you can use length property or for loop.
 
 ```Javascript
 let str = "today is friday";
@@ -183,4 +183,94 @@ function reverseWord(str) {
 
 console.log(reverseWord(str));
 // output: friday is today
+```
+
+### create a function to flatten an array
+
+
+The flat() method of Array instances creates a new array with all sub-array elements concatenated into it recursively up to the specified depth. The depth level specifying how deep a nested array structure should be flattened. Defaults to 1.
+
+```js
+const arr4 = [1, 2, [3, 4, [5, 6, [7, 8, [9, 10]]]]];
+arr4.flat(Infinity);
+// [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+```
+Example below without using flat
+```js
+function flattenArray(nestedArray) {
+    let flatArray = [];
+    for (let i = 0; i < nestedArray.length; i++) {
+        if (Array.isArray(nestedArray[i])) {
+            flatArray = flatArray.concat(flattenArray(nestedArray[i]));
+        } else {
+            flatArray.push(nestedArray[i]);
+        }
+    }
+    return flatArray;
+}
+
+const arr = [1,2,[3,[4,5,[6]]]];
+console.log(flattenArray(arr)); // [ 1, 2, 3, 4, 5, 6 ]
+
+```
+
+### Remove duplicates id of object from array
+
+```js
+let users = [
+  { id: 1, name: "Jitendra" },
+  { id: 2, name: "Jittu" },
+  { id: 2, name: "Ram" },
+  { id: 3, name: "Shyam" },
+  { id: 3, name: "Laxman" },
+];
+```
+
+### Method 1: Time complexity of O(n^2) and a space complexity of O(n).
+```js
+let uniqArr = [];
+for(let i = 0; i < users.length; i++) {
+  let user = users[i];
+  let found = false;
+  for(let j = 0; j < uniqArr.length; j++) {
+    let user1 = uniqArr[j];
+    if(user1.id === user.id) {
+      found = true;
+      break;
+    }
+  }
+  if(!found) {
+    uniqArr.push(user);
+  }
+}
+```
+
+### Method 2: Time complexity of O(n^2) and a space complexity of O(n)
+```js
+let uniqArr = users.reduce((acc, current) => {
+  const x = acc.find(item => item.id === current.id);
+  if (!x) {
+    return acc.concat([current]);
+  } else {
+    return acc;
+  }
+}, []);
+```
+
+### Method 3: Best approach, Time complexity of O(n) and a space complexity of O(n)
+```js
+let userMap = new Map();
+users.forEach(user => {
+  userMap.set(user.id, user);
+});
+
+let uniqArr = Array.from(userMap.values());
+
+console.log(uniqArr);
+// output
+[
+  { id: 1, name: 'Jitendra' },
+  { id: 2, name: 'Jittu' },
+  { id: 3, name: 'Shyam' }
+]
 ```
